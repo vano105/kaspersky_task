@@ -25,7 +25,6 @@ void Scanner::run() {
     }
 
     unsigned int num_threads = std::thread::hardware_concurrency();
-    std::cout << "number of threads" << num_threads << std::endl;
     for (unsigned int i = 0; i < num_threads; ++i) {
         threads_.emplace_back(&Scanner::workerThread, this);
     }

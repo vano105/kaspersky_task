@@ -12,7 +12,7 @@ cmake --build .
 ```
 # Usage
 ```
-./scanner_exe/scanner_exe --base malware_db.csv --log scan_report.log --path /path/to/scan
+./scanner_exe/scanner --base malware_db.csv --log scan_report.log --path /path/to/scan
 ```
 # Test running
 ```
@@ -21,7 +21,7 @@ cd build
 ```
 # Output example
 ```
-./scanner_exe --base ../../test_dir/hashs.scv --log report.log --path ../../test_dir
+./scanner --base ../../test_dir/hashs.scv --log report.log --path ../../test_dir
 
 [2025-09-17 22:03:39] File: ../../test_dir/test4/test5, Hash: 073faa4ba9f76be669c019233f4804b0, Verdict: Clean
 [2025-09-17 22:03:39] File: ../../test_dir/test2.txt, Hash: 2194628c058667579e0a871e7202a397, Verdict: Clean

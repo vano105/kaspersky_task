@@ -11,11 +11,14 @@
 using steady_clock = std::chrono::steady_clock;
 namespace fs = std::filesystem;
 
+// 16k buffer size
+constexpr static size_t hash_buffer_size = 1024 * 16;
+
 void Scanner::run() {
     auto start_time = steady_clock::now();
 
     if (!loadBase()) {
-        throw std::runtime_error("Failed to load base: " + path_to_csv_);
+        throw std::runtime_error("Failed to load base: " + path_to_csv_.string());
     }
 
     for (const auto& entry : fs::recursive_directory_iterator(path_to_dir_)) {
@@ -53,7 +56,7 @@ void Scanner::workerThread() {
     }
 }
 
-void Scanner::processFile(const std::string &file_path) {
+void Scanner::processFile(const fs::path &file_path) {
     std::ifstream file(file_path, std::ios::binary);
     if (!file) {
         std::cerr << "Cannot open file: " << file_path << std::endl;
@@ -63,7 +66,7 @@ void Scanner::processFile(const std::string &file_path) {
     MD5_CTX md5Context;
     MD5_Init(&md5Context);
     
-    char buffer[1024 * 16];
+    char buffer[hash_buffer_size];
     while (file.read(buffer, sizeof(buffer)) || file.gcount() > 0) {
         MD5_Update(&md5Context, buffer, file.gcount());
     }

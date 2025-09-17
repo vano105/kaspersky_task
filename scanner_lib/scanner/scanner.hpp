@@ -16,11 +16,12 @@
 #include <atomic>
 #include <thread>
 #include <queue>
+#include <filesystem>
 #include "logger/logger.hpp"
 
 class SCANNER_API Scanner {
 public:
-    Scanner(const std::string &path_to_csv, const std::string &path_to_dir, const std::string &path_to_log)
+    Scanner(const std::filesystem::path &path_to_csv, const std::filesystem::path &path_to_dir, const std::filesystem::path &path_to_log)
     : path_to_csv_(path_to_csv), path_to_dir_(path_to_dir), path_to_log_(path_to_log), 
       logger_(path_to_log), current_index_(0) {
     }
@@ -36,16 +37,16 @@ public:
     }
 
 private:
-    std::string path_to_csv_;
-    std::string path_to_dir_;
-    std::string path_to_log_;
+    std::filesystem::path path_to_csv_;
+    std::filesystem::path path_to_dir_;
+    std::filesystem::path path_to_log_;
     std::unordered_map<std::string, std::string> hashs_table_;
-    std::vector<std::string> file_paths_;
+    std::vector<std::filesystem::path> file_paths_;
     Logger logger_;
     std::vector<std::thread> threads_;
     std::atomic<size_t> current_index_;
 
-    void processFile(const std::string &file_path);
+    void processFile(const std::filesystem::path &file_path);
     bool loadBase();
     std::string checkHash(const std::string& hash) const;
     void workerThread();
